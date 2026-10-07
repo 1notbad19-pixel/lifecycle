@@ -1,0 +1,124 @@
+@startuml
+' Class Diagram - Blood Pressure Analyzer
+
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FEFEFE
+
+' ====== MODEL ======
+class BloodPressureModel {
+    - age: int
+    - weight: int
+    - systolic: int
+    - diastolic: int
+    __
+    + BloodPressureModel()
+    + getAge(): int
+    + setAge(age: int): void
+    + getWeight(): int
+    + setWeight(weight: int): void
+    + getSystolic(): int
+    + setSystolic(systolic: int): void
+    + getDiastolic(): int
+    + setDiastolic(diastolic: int): void
+    + calculateIdealSystolic(): int
+    + calculateIdealDiastolic(): int
+    + evaluatePressure(): String
+    + validateData(): boolean
+}
+
+' ====== VIEW ======
+class MainFrame {
+    - resultLabel: JLabel
+    - savedDataLabel: JLabel
+    - inputButton: JButton
+    __
+    + MainFrame()
+    + setResultText(text: String): void
+    + setSavedDataText(text: String): void
+    + addInputButtonListener(listener: ActionListener): void
+}
+
+class InputDialog {
+    - dayField: JTextField
+    - monthField: JTextField
+    - yearField: JTextField
+    - weightField: JTextField
+    - systolicField: JTextField
+    - diastolicField: JTextField
+    - submitButton: JButton
+    - cancelButton: JButton
+    - submitted: boolean
+    __
+    + InputDialog(parent: Frame)
+    + addSubmitListener(listener: ActionListener): void
+    + getDay(): int
+    + getMonth(): int
+    + getYear(): int
+    + getWeight(): int
+    + getSystolic(): int
+    + getDiastolic(): int
+    + setDay(day: int): void
+    + setMonth(month: int): void
+    + setYear(year: int): void
+    + setWeight(weight: int): void
+    + setSystolic(systolic: int): void
+    + setDiastolic(diastolic: int): void
+    + isSubmitted(): boolean
+    + setSubmitted(submitted: boolean): void
+    + showError(message: String): void
+}
+
+' ====== CONTROLLER ======
+class BloodPressureController {
+    - model: BloodPressureModel
+    - view: MainFrame
+    - inputDialog: InputDialog
+    - savedDay: int
+    - savedMonth: int
+    - savedYear: int
+    - savedWeight: int
+    - savedSystolic: int
+    - savedDiastolic: int
+    __
+    + BloodPressureController(model: BloodPressureModel, view: MainFrame)
+    - calculateAge(): int
+    - updateSavedDataDisplay(): void
+    - displayResult(): void
+}
+
+' ====== INNER LISTENER CLASSES ======
+class InputButtonListener {
+    + actionPerformed(e: ActionEvent): void
+}
+
+class SubmitListener {
+    + actionPerformed(e: ActionEvent): void
+}
+
+' ====== ENTRY POINT ======
+class Main {
+    + main(args: String[]): void
+}
+
+' ====== RELATIONSHIPS ======
+
+' Controller -> Model
+BloodPressureController --> BloodPressureModel : uses
+
+' Controller -> View
+BloodPressureController --> MainFrame : manages
+BloodPressureController --> InputDialog : creates
+
+' MainFrame -> InputDialog
+MainFrame --> InputDialog : creates
+
+' Inner classes
+BloodPressureController ..> InputButtonListener : has inner class
+BloodPressureController ..> SubmitListener : has inner class
+
+' Main creates everything
+Main --> BloodPressureController : creates
+Main --> BloodPressureModel : creates
+Main --> MainFrame : creates
+
+@enduml
