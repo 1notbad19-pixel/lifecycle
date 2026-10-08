@@ -33,7 +33,3 @@ src/
 ├── controller/
 
 └── Main.java
-
-docs/
-
-'@ | Out-File -FilePath "README.md" -Encoding UTF8
